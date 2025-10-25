@@ -39,3 +39,20 @@ if st.button("Get Recommendations"):
     st.subheader("Recommended Movies:")
     for m in recommendations:
         st.write("✅", m)
+import streamlit as st
+
+st.set_page_config(
+    page_title="Movie Recommender",
+    page_icon="🎬",
+    layout="wide",
+)
+
+# Hide Streamlit default menu, footer and GitHub icon
+hide_st_style = """
+    <style>
+    #MainMenu {visibility: hidden;} 
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    </style>
+"""
+st.markdown(hide_st_style, unsafe_allow_html=True)
