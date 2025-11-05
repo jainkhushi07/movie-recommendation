@@ -1,9 +1,13 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8770b4fd1a5cc625d4b3b7c71136a318113e005a
 import streamlit as st
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.neighbors import NearestNeighbors
 
+<<<<<<< HEAD
 # ------------------------------
 # 1️⃣ Load Data
 # ------------------------------
@@ -87,3 +91,58 @@ if movie_input:
         st.subheader("Recommended Movies:")
         for rec, score in recommendations:
             st.write(f"✅ {rec} — Similarity Score: {score:.2f}")
+=======
+# Load data
+movies = pd.read_csv('u.item', sep='|', encoding='latin-1', header=None, names=range(24))
+movies['title'] = movies[1].astype(str)
+
+# Create combined column (title + genres)
+genre_cols = list(range(5, 24))
+movies['combined'] = movies['title'] + " " + movies[genre_cols].astype(str).agg(' '.join, axis=1)
+
+# Vectorize
+cv = CountVectorizer()
+count_matrix = cv.fit_transform(movies['combined'])
+
+# Fit KNN
+knn = NearestNeighbors(metric='cosine', algorithm='brute')
+knn.fit(count_matrix)
+
+# Recommendation function
+def recommend_knn(movie_name, n_recommendations=5):
+    try:
+        idx = movies[movies['title'].str.contains(movie_name, case=False)].index[0]
+    except:
+        return ["Movie not found!"]
+    
+    distances, indices = knn.kneighbors(count_matrix[idx], n_neighbors=n_recommendations+1)
+    recommended_movies = [movies.iloc[i]['title'] for i in indices[0][1:]]
+    return recommended_movies
+
+# Streamlit UI
+st.title("🎬 Movie Recommendation System")
+movie_name = st.text_input("Enter a movie name")
+
+if st.button("Get Recommendations"):
+    recommendations = recommend_knn(movie_name)
+    st.subheader("Recommended Movies:")
+    for m in recommendations:
+        st.write("✅", m)
+import streamlit as st
+
+st.set_page_config(
+    page_title="Movie Recommender",
+    page_icon="🎬",
+    layout="wide",
+)
+
+# Hide Streamlit default menu, footer and GitHub icon
+hide_st_style = """
+    <style>
+    #MainMenu {visibility: hidden;} 
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    </style>
+"""
+st.markdown(hide_st_style, unsafe_allow_html=True)
+>>>>>>> 8770b4fd1a5cc625d4b3b7c71136a318113e005a
