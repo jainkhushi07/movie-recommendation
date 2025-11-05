@@ -4,11 +4,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.neighbors import NearestNeighbors
 
-<<<<<<< HEAD
-# ------------------------------
-# 1️⃣ Load Data
-# ------------------------------
-@st.cache_data  # caches data for faster reloads
+
 def load_data():
     # Load MovieLens dataset
     movies = pd.read_csv('u.item', sep='|', encoding='latin-1', header=None, names=range(24))
