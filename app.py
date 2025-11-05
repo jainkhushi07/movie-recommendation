@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> 8770b4fd1a5cc625d4b3b7c71136a318113e005a
 import streamlit as st
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
